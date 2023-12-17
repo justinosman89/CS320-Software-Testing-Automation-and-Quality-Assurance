@@ -1,0 +1,80 @@
+/*Justin Osman
+ * JUnit Tests Module 3 Milestone
+ * CS 320 Professor Prasad
+ * 12/3/2023
+ */ 
+
+public class Contact {
+	//variables to store contacts info
+	private String contactID;
+	private String firstName;
+	private String lastName;
+	private String phoneNumber;
+	private String address;
+	
+	//constructor to create a new contact object
+	public Contact(String contactID, String firstName,String lastName, String phoneNumber, String address) {
+		this.contactID = contactID;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+	}
+	
+	//getter method to obtain contactID
+	public String getContactID() {
+		return contactID;
+	}
+	
+	//getter method to obtain firstName
+	public String getFirstName() {
+		return firstName;
+	}
+	
+	//setter method for updating first name
+	public void setFirstName(String firstName) {
+		//check to see that first name length and null status meet requirements
+		if (firstName != null && firstName.length() <= 10) {
+			this.firstName = firstName;
+		}
+	}
+	
+	//getter method to obtain lastName
+	public String getLastName() {
+		return lastName;
+	}
+	
+	//setter method for updating lastName
+	public void setLastName(String lastName) {
+		//check to see that last name length and null status meet requirements
+		if (lastName != null && lastName.length() <= 10) {
+			this.lastName = lastName;
+		}
+	}
+	
+	//getter method for phoneNumber
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	
+	//setter method for updating phoneNumber
+	public void setPhoneNumber(String phoneNumber) {
+		//check to see that phone number length and null status meet requirements
+		if (phoneNumber != null && phoneNumber.length() == 10) {
+			this.phoneNumber = phoneNumber;
+		}
+	}
+	
+	//getter method to obtain address
+	public String getAddress() {
+		return address;
+	}
+	
+	//setter method to update address
+	public void setAddress(String address) {
+		//check to see that the address length and null status meet requirements
+		if (address != null && address.length() <= 30) {
+			this.address = address;
+		}
+	}
+}
