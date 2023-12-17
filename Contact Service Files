@@ -4,6 +4,8 @@
  * 12/3/2023
  */ 
 
+CONTACT.JAVA
+
 public class Contact {
 	//variables to store contacts info
 	private String contactID;
@@ -78,3 +80,163 @@ public class Contact {
 		}
 	}
 }
+
+
+
+CONTACTSERVICE.JAVA
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class ContactService {
+	//list that stores contacts
+	private List<Contact> contacts = new ArrayList<>();
+	
+	//method that adds new contact
+	public void addContact(Contact contact) {
+		//checks to see if any of the existing contacts equals contact ID as the one being added
+		boolean isUnique = contacts.stream().noneMatch(c-> c.getContactID().equals(contact.getContactID()));
+		//if true add contact
+		if (isUnique) {
+			contacts.add(contact);
+		}
+	}
+	
+	//method to delete contact using contactID
+	public void deleteContact(String contactID) {
+		//execute code that will delete a contacts using that contacts ID
+		contacts.removeIf(contact -> contact.getContactID().equals(contactID));
+	}
+	
+	//method to update contact using all contacts specifics
+	public void updateContact(String contactID, String firstName, String lastName, String phoneNumber, String address) {
+		//search and find the contact using its ID and then update the contacts specifics
+		for (Contact contact : contacts) {
+			//if contactID from list equals contactID parameter, then update the specifics
+			if (contact.getContactID().equals(contactID)) {
+				contact.setFirstName(firstName);
+				contact.setLastName(lastName);
+				contact.setPhoneNumber(phoneNumber);
+				contact.setAddress(address);
+				//ends loop once correct ID is found
+				break;
+			}
+		}
+	}
+	
+	//method to get list of contacts
+	public List<Contact> getContacts(){
+		return contacts;
+	}
+}
+
+
+CONTACTTEST.JAVA
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+public class ContactTest {
+
+	@Test
+	public void validContactTest() {
+		//create new contact instance for test
+		Contact contact = new Contact("10987", "Kobe", "Bryant", "5705550823", "43 West Main St");
+		//check that contact specifics are correctly set
+		assertEquals("10987", contact.getContactID());
+		assertEquals("Kobe", contact.getFirstName());
+		assertEquals("Bryant", contact.getLastName());
+		assertEquals("5705550823", contact.getPhoneNumber());
+		assertEquals("43 West Main St", contact.getAddress());
+	}
+	
+	@Test
+	public void nonValidContactTest() {
+		//test for non-valid contacts, in this case should return null because of length lastName
+		Contact contact = new Contact("10987", "Kobe", "Bryantthebesttoeverdoitalltime", "5705550823", "43 West Main St");
+		//check if instance is null
+		assertNull(contact);
+	}
+	
+	@Test
+	public void updateContactTest() {
+		//create contact instance for testing
+		Contact contact = new Contact("10987", "Kobe", "Bryant", "5705550823", "43 West Main St");
+		//update contact specifics
+		contact.setFirstName("Vince");
+		contact.setLastName("Carter");
+		contact.setPhoneNumber("5705551515");
+		contact.setAddress("15 Highrise Lane");
+		
+		//check to make sure specifics were correctly updated
+		assertEquals("Vince", contact.getFirstName());
+		assertEquals("Carter", contact.getLastName());
+		assertEquals("5705551515", contact.getPhoneNumber());
+		assertEquals("15 Highrise Lane", contact.getAddress());
+	}
+
+}
+
+
+CONTACTSERVICETEST.JAVA
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+public class ContactServiceTest {
+
+	@Test
+	public void addContactTest() {
+		//create new instance for testing
+		ContactService service = new ContactService();
+		//dummy contact to use for test
+		Contact contact = new Contact("10987", "Kobe", "Bryant", "5705550823", "43 West Main St");
+		//test addContact method
+		service.addContact(contact);
+		
+		//check to make sure the contact was added
+		assertTrue(service.getContacts().contains(contact));
+	}
+	
+	@Test
+	public void deleteContactTest() {
+		//new instance for testing
+		ContactService service = new ContactService();
+		//dummy contact for testing
+		Contact contact = new Contact("10987", "Kobe", "Bryant", "5705550823", "43 West Main St");
+		
+		//add contact to the service
+		service.addContact(contact);
+		//test deleteContact method
+		service.deleteContact("10987");
+		
+		//check to make sure contact was deleted
+		assertFalse(service.getContacts().contains(contact));	
+	}
+	
+	@Test
+    public void testUpdateContact() {
+        //create new instance for testing
+		ContactService service = new ContactService();
+		//dummy contact for testing
+        Contact contact = new Contact("10987", "Kobe", "Bryant", "5705550823", "43 West Main St");
+        
+        //add contact to service
+        service.addContact(contact);
+
+        // test updateContact method
+        service.updateContact("10987", "Vince", "Carter", "5705551515", "15 Highrise Lane");
+
+        // Check if the specifics were updated
+        assertEquals("Vince", contact.getFirstName());
+        assertEquals("Carter", contact.getLastName());
+        assertEquals("5705551515", contact.getPhoneNumber());
+        assertEquals("15 Highrise Lane", contact.getAddress());
+    }
+
+}
+
+
